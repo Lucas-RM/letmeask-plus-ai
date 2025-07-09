@@ -116,7 +116,7 @@ letmeask-plus-ai/
    npm start
    ```
 
-O servidor estará disponível em `http://localhost:3333`
+O servidor estará disponível em http://localhost:3333
 
 ### Frontend (Web)
 
@@ -141,7 +141,7 @@ O servidor estará disponível em `http://localhost:3333`
    npm run preview
    ```
 
-O frontend estará disponível em `http://localhost:5173`
+O frontend estará disponível em http://localhost:5173
 
 ## 🏗️ Padrões de Projeto
 
@@ -168,23 +168,6 @@ O projeto utiliza PostgreSQL com pgvector para operações vetoriais, ideal para
 - **Tabela `rooms`**: Armazena informações das salas de perguntas
 - **Campos**: id (UUID), name, description, createdAt
 - **Extensões**: pgvector para embeddings vetoriais
-
-## 🔧 Scripts Disponíveis
-
-### Backend
-- `npm run dev`: Servidor de desenvolvimento com hot reload
-- `npm start`: Servidor de produção
-- `npm run db:seed`: Executa seeds do banco de dados
-
-### Frontend
-- `npm run dev`: Servidor de desenvolvimento Vite
-- `npm run build`: Build de produção
-- `npm run preview`: Preview do build de produção
-
-## 🌐 Endpoints da API
-
-- `GET /health`: Health check
-- `GET /rooms`: Lista todas as salas
 
 ## 🤝 Contribuição
 
