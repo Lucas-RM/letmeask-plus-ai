@@ -6,6 +6,6 @@ services:
       POSTGRES_PASSWORD: docker 
       POSTGRES_DB: agents
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - ./docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
