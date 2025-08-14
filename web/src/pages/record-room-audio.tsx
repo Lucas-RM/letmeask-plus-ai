@@ -16,12 +16,17 @@ export function RecordRoomAudio() {
   const params = useParams<RoomParams>()
   const [isRecording, setIsRecording] = useState(false)
   const recorder = useRef<MediaRecorder | null>(null)
+  const intervalRef = useRef<NodeJS.Timeout>(null)
 
   function stopRecording() {
     setIsRecording(false)
 
     if (recorder.current && recorder.current.state !== 'inactive') {
       recorder.current.stop()
+    }
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
     }
   }
 
@@ -43,22 +48,7 @@ export function RecordRoomAudio() {
     console.log(result)
   }
 
-  async function startRecording() {
-    if (!isRecordingSupported) {
-      alert('O seu navegador não suporta gravação')
-      return
-    }
-
-    setIsRecording(true)
-
-    const audio = await navigator.mediaDevices.getUserMedia({
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        sampleRate: 44_100,
-      },
-    })
-
+  function createRecorder(audio: MediaStream) {
     recorder.current = new MediaRecorder(audio, {
       mimeType: 'audio/webm',
       audioBitsPerSecond: 64_000,
@@ -79,6 +69,31 @@ export function RecordRoomAudio() {
     }
 
     recorder.current.start()
+  }
+
+  async function startRecording() {
+    if (!isRecordingSupported) {
+      alert('O seu navegador não suporta gravação')
+      return
+    }
+
+    setIsRecording(true)
+
+    const audio = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        sampleRate: 44_100,
+      },
+    })
+
+    createRecorder(audio)
+
+    intervalRef.current = setInterval(() => {
+      recorder.current?.stop()
+
+      createRecorder(audio)
+    }, 5000)
   }
 
   if (!params.roomId) {
